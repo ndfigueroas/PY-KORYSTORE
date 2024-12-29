@@ -11,10 +11,10 @@ export default function Login() {
         const contrasena = formData.get('contrasena') as string;
         console.log('Número de Documento:', numeroDocumento);
         console.log('Contraseña:', contrasena)
-        
+
         try {
-            const response = await fetch("https://py-korystore.onrender.com/api/login", {
-                method: 'POST',           
+            const response = await fetch("https://proyecto-react-diciembre.onrender.com/api/login", {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -40,15 +40,40 @@ export default function Login() {
         }
     }
     return (
-        <div className="font-bold text-red-700 flex justify-center items-center min-h-[80vh]">
-            <div className="border border-2 border-black p-2">
-                <h1>Iniciar Sesión</h1>
-                <form onSubmit={handleLogin}>
-                    <input type="text" name="numeroDocumento" placeholder="Número de Documento" />
-                    <input type="password" name="contrasena" placeholder="Contraseña" />
-                    <button type="submit">Iniciar Sesión</button>
+        <div className="font-sans bg-gray-100 flex justify-center items-center min-h-screen">
+            <div className="bg-white border border-gray-300 p-8 rounded-lg shadow-lg w-full max-w-sm">
+                <h1 className="text-2xl font-semibold text-center mb-6">Iniciar Sesión</h1>
+                <form onSubmit={handleLogin} className="flex flex-col space-y-4">
+                    <input
+                        type="text"
+                        name="numeroDocumento"
+                        placeholder="Número de Documento"
+                        className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        required
+                    />
+                    <input
+                        type="password"
+                        name="contrasena"
+                        placeholder="Contraseña"
+                        className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        required
+                    />
+                    <button
+                        type="submit"
+                        className="bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                        Iniciar Sesión
+                    </button>
+                    <div className="text-center mt-4">
+                        <a
+                            href="/registro"
+                            className="text-blue-500 hover:underline"
+                        >
+                            ¿No tienes una cuenta? Regístrate
+                        </a>
+                    </div>
                 </form>
             </div>
         </div>
-    )
+    );
 }
