@@ -3,7 +3,7 @@ import express from 'express';
 import * as productController from './controllers/productController.mjs'
 */
 import * as UsuarioController from './controller/UsuarioController.mjs'
-
+import * as ProductoController from './controller/ProductoController.mjs'
 const router = express.Router();
 
 /*
@@ -12,19 +12,11 @@ router.put('/products/:id',productController.updateProduct)
 router.post('/product-create',productController.createProduct)
 router.delete('/products/:id', productController.deleteProduct);
 */
-
 router.post('/registro', UsuarioController.createUser);
 router.post('/login', UsuarioController.login);
 
-/* especificado como prueba
-router.get('/registro',(req,res) => {
-    console.log("Me estoy resgistrando");
-    res.status(201).send('Resgistrando en proceso');
-});
-router.post('/login', (req , res) => {
-    console.log("Estoy logueando");
-    res.status(200).send('login en proceso');
-});
-*/
-
+router.post('/crear-producto', ProductoController.createProducto);
+router.put('/actualizar-producto', ProductoController.updateProducto)
+router.get('/traer-productos', ProductoController.getProductos)
+router.delete('/eliminar-producto', ProductoController.deleteProducto)
 export default router;

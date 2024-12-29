@@ -14,7 +14,6 @@ app.use(cors({
 
 app.use(express.json());
 
-//MIDDLEWEAR
 app.use((req, res, next) => {
     next();
 });
