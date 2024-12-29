@@ -1,6 +1,4 @@
 import { useState } from "react";
-import Navbar from "../components/Navbar"; // Ajusta según la ubicación de tu Navbar
-import Footer from "../components/Footer"; // Ajusta según la ubicación de tu Footer
 
 export default function ContactPage() {
     const [formData, setFormData] = useState({
