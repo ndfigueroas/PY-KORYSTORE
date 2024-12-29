@@ -13,7 +13,7 @@ export default function Login() {
         console.log('Contraseña:', contrasena)
 
         try {
-            const response = await fetch("https://proyecto-react-diciembre.onrender.com/api/login", {
+            const response = await fetch("https://py-korystore.onrender.com/api/login", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

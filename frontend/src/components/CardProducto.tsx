@@ -60,7 +60,7 @@ export function ModalEditar({
 
         try {
             // Enviar los datos al backend
-            const response = await fetch('https://proyecto-react-diciembre.onrender.com/api/actualizar-producto', {
+            const response = await fetch('https://py-korystore.onrender.com/api/actualizar-producto', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -163,7 +163,7 @@ export function ModalEliminar({
         e.preventDefault();
         try {
             // Enviar los datos al backend
-            const response = await fetch('https://proyecto-react-diciembre.onrender.com/api/eliminar-producto?idProducto=' + producto.id, {
+            const response = await fetch('https://py-korystore.onrender.com/api/eliminar-producto?idProducto=' + producto.id, {
                 method: 'DELETE',
             });
 

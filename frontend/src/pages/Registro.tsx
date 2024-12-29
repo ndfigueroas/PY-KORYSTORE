@@ -15,7 +15,7 @@ export default function Registro() {
 
 
         try {
-            const response = await fetch("https://proyecto-react-diciembre.onrender.com/api/registro", {
+            const response = await fetch("https://py-korystore.onrender.com/api/registro", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

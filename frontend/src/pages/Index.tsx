@@ -12,7 +12,7 @@ export default function Index() {
     const fetchingProductos = async () => {
         console.log('Componente Index cargado')
         try {
-            const response = await fetch('https://proyecto-react-diciembre.onrender.com/api/traer-productos', {
+            const response = await fetch('https://py-korystore.onrender.com/api/traer-productos', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
@@ -98,7 +98,7 @@ export function ModalRegistrar({
 
         try {
             // Enviar los datos al backend
-            const response = await fetch('https://proyecto-react-diciembre.onrender.com/api/crear-producto', {
+            const response = await fetch('https://py-korystore.onrender.com/api/crear-producto', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
