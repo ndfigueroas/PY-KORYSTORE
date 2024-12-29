@@ -1,16 +1,12 @@
-import { useEffect, useState } from "react"
-import { Producto } from "../utils/definition"
+import { useEffect, useState } from "react";
+import { Producto } from "../utils/definition";
 import CardProducto from "../components/CardProducto";
 
-export default function Index() {
+export default function HomePage() {
     const [listaProductos, setListaProductos] = useState<Producto[]>();
-    const [modalReg, setModalReg] = useState(false);
 
-    const handleToggleModalReg = () => {
-        setModalReg(!modalReg);
-    }
+    // Función para obtener los productos desde la API
     const fetchingProductos = async () => {
-        console.log('Componente Index cargado')
         try {
             const response = await fetch('https://py-korystore.onrender.com/api/traer-productos', {
                 method: 'GET',
@@ -19,167 +15,93 @@ export default function Index() {
                 }
             })
             if (response.ok) {
-                const data: Producto[] = await response.json()
-                setListaProductos(data)
-                console.log(data)
+                const data: Producto[] = await response.json();
+                setListaProductos(data);
+                console.log(data);
             }
         } catch (error) {
-            console.error(error)
+            console.error(error);
         }
-
-
     }
+
+    // Efecto para cargar los productos al montar el componente
     useEffect(() => {
         fetchingProductos();
-    }, [])
+    }, []);
 
     return (
-        <div className="font-bold text-red-700 justify-center items-center min-h-[80vh] min-w-full">
-            <div className="p-2">
-                <div className="flex flex-col">
-                    <h1 className="mt-4 text-center text-3xl font-bold">Bienvenidos</h1>
-                    <div className="w-[30wh] flex justify-end">
-                        <button
-                            onClick={handleToggleModalReg}
-                            className="bg-blue-500 text-white py-1 px-4 mr-4 rounded"
-                        >
-                            Registrar
-                        </button>
-                    </div>
-
+        <div className="font-sans">
+            {/* Hero Section */}
+            <section className="hero-section bg-gradient-to-r from-blue-500 via-pink-500 to-yellow-500 text-white py-10 text-center">
+                <div className="hero-text">
+                    <h1 className="text-5xl font-bold mb-4">Bienvenidos a Kory Store</h1>
+                    <p className="text-xl mb-6">La mejor tienda de ropa para ti, siempre con las últimas tendencias.</p>
+                    <a href="#productos" className="btn btn-primary px-6 py-3 text-lg rounded-full transition-transform transform hover:scale-105">
+                        Explorar Productos
+                    </a>
                 </div>
+            </section>
 
-                <div className="min-h-[80vh]">
-                    {listaProductos && listaProductos.length > 0 ? (
-
-                        <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
-                            {listaProductos.map((item) => (
-                                <CardProducto key={item.id} producto={item} fetchingProductos={fetchingProductos} />
-                            ))}
+            {/* Sección de Categorías */}
+            <section className="categories-section text-center py-12 bg-gray-100">
+                <div className="container mx-auto">
+                    <h2 className="section-title text-4xl font-semibold mb-6">Explora Nuestras Categorías</h2>
+                    <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6">
+                        {/* Categoría 1 */}
+                        <div className="category-card p-4 bg-white shadow-lg rounded-lg transition-all transform hover:scale-105">
+                            <img src="https://www.lolitamoda.com/uploads/post/image/107/13.4_prendas_b_sicas_en_el_guardarropa_de_una_mujer_y_c_mo_combinarlas.jpg" alt="Categoría 1" className="w-full h-48 object-cover rounded-t-lg mb-4" />
+                            <h3 className="text-xl font-semibold">Ropa Mujer</h3>
                         </div>
-                    ) : (
-                        <div className="flex items-center justify-center min-h-[80vh]">
-                            <p>Cargando productos...</p>
-
+                        {/* Categoría 2 */}
+                        <div className="category-card p-4 bg-white shadow-lg rounded-lg transition-all transform hover:scale-105">
+                            <img src="https://almomento.mx/wp-content/uploads/2022/07/IMG_20220707_164913.jpg" alt="Categoría 2" className="w-full h-48 object-cover rounded-t-lg mb-4" />
+                            <h3 className="text-xl font-semibold">Accesorios</h3>
                         </div>
-                    )}
-                </div>
-
-            </div>
-            {modalReg && <ModalRegistrar handleToggleModalReg={handleToggleModalReg} fetchingProductos={fetchingProductos} />}
-
-        </div>
-    )
-}
-
-export function ModalRegistrar({
-    handleToggleModalReg,
-    fetchingProductos
-}: {
-    handleToggleModalReg: () => void;
-    fetchingProductos: any
-}) {
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-
-        // Crear un objeto FormData para extraer los valores del formulario
-        const formData = new FormData(e.currentTarget);
-
-        // Crear el objeto del producto a partir de los valores
-        const producto = {
-            nombre: formData.get('nombre') as string,
-            descripcion: formData.get('descripcion') as string,
-            img: formData.get('imagen') as string,
-            precio: parseFloat(formData.get('precio') as string),
-            stock: parseInt(formData.get('stock') as string),
-        };
-
-        console.log(producto);
-
-        try {
-            // Enviar los datos al backend
-            const response = await fetch('https://py-korystore.onrender.com/api/crear-producto', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(producto),
-            });
-
-            // Verificar la respuesta
-            if (response.ok) {
-                const result = await response.json();
-                console.log('Producto registrado con éxito:', result);
-                handleToggleModalReg(); // Cerrar el modal
-                fetchingProductos();
-            } else {
-                console.error('Error al registrar el producto:', response.statusText);
-            }
-        } catch (error) {
-            console.error('Error en la solicitud:', error);
-        }
-    };
-
-    return (
-        <div className="fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-50 z-50 flex justify-center items-center">
-            <div className="p-4 bg-white w-full max-w-[300px]">
-                <h1 className="text-center">Registrar Producto</h1>
-                <form onSubmit={handleSubmit}>
-                    <input
-                        type="text"
-                        name="nombre"
-                        placeholder="Nombre del producto"
-                        className="border border-gray-300 p-2 mb-2 w-full"
-                        required
-                    />
-                    <input
-                        type="text"
-                        name="descripcion"
-                        placeholder="Descripción del producto"
-                        className="border border-gray-300 p-2 mb-2 w-full"
-                        required
-                    />
-                    <input
-                        type="text"
-                        name="imagen"
-                        placeholder="Imagen del producto"
-                        className="border border-gray-300 p-2 mb-2 w-full"
-                        required
-                    />
-                    <input
-                        type="number"
-                        name="precio"
-                        placeholder="Precio"
-                        className="border border-gray-300 p-2 mb-2 w-full"
-                        required
-                        min="0"
-                        step="0.01"
-                    />
-                    <input
-                        type="number"
-                        name="stock"
-                        placeholder="Stock"
-                        className="border border-gray-300 p-2 mb-4 w-full"
-                        required
-                        min="0"
-                    />
-                    <div className="flex flex-row justify-around">
-                        <button
-                            type="button"
-                            onClick={handleToggleModalReg}
-                            className="bg-red-500 text-white py-1 px-4 rounded"
-                        >
-                            Cancelar
-                        </button>
-                        <button
-                            type="submit"
-                            className="bg-blue-500 text-white py-1 px-4 rounded"
-                        >
-                            Registrar
-                        </button>
+                        {/* Categoría 3 */}
+                        <div className="category-card p-4 bg-white shadow-lg rounded-lg transition-all transform hover:scale-105">
+                            <img src="https://i.ebayimg.com/thumbs/images/g/c9UAAOSwqT9ml4nH/s-l1200.jpg" alt="Categoría 3" className="w-full h-48 object-cover rounded-t-lg mb-4" />
+                            <h3 className="text-xl font-semibold">Ropa Íntima</h3>
+                        </div>
                     </div>
-                </form>
-            </div>
+                </div>
+            </section>
+
+            {/* Sección de Suscripción al Boletín */}
+            <section className="newsletter-section text-center py-10 bg-gradient-to-r from-purple-600 to-pink-500 text-white">
+                <h2 className="text-3xl font-bold mb-4">¡Suscríbete a nuestro boletín!</h2>
+                <p className="text-lg mb-6">Recibe las últimas ofertas, productos y novedades directamente en tu correo.</p>
+                <div className="d-flex justify-center mb-4">
+                    <input
+                        type="email"
+                        className="form-control w-50 p-3 rounded-l-lg"
+                        placeholder="Introduce tu correo electrónico"
+                        required
+                    />
+                    <button type="submit" className="btn btn-primary px-6 py-3 rounded-r-lg bg-yellow-500 text-black font-semibold">
+                        Suscribirse
+                    </button>
+                </div>
+            </section>
+
+            {/* Sección de Productos Destacados */}
+            <section id="productos" className="featured-products-section text-center py-12 bg-gray-200">
+                <div className="container mx-auto">
+                    <h2 className="section-title text-4xl font-semibold mb-6">Productos Destacados</h2>
+                    <div className="min-h-[80vh]">
+                        {listaProductos && listaProductos.length > 0 ? (
+                            <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6">
+                                {listaProductos.map((item) => (
+                                    <CardProducto key={item.id} producto={item} fetchingProductos={fetchingProductos}/>
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="flex items-center justify-center min-h-[80vh]">
+                                <p className="text-2xl text-gray-700">Cargando productos...</p>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </section>
         </div>
     );
 }

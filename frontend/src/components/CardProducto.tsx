@@ -7,12 +7,18 @@ export default function CardProducto({ producto, fetchingProductos }: { producto
 
     const handleToggleModalEdit = () => {
         setModalEdit(!modalEdit);
-    }
+    };
     const handleToggleModalElim = () => {
         setModalElim(!modalElim);
-    }
+    };
+
+    const dataUser = localStorage.getItem("datauser");
+
+    // Si hay datos de usuario en el localStorage, los botones de Editar y Eliminar estarán disponibles
+    const showEditDeleteButtons = dataUser !== null;
+
     return (
-        <div className=" p-2 text-black rounded-t-lg">
+        <div className="p-2 text-black rounded-t-lg">
             <img className="w-full h-[40vh] border border-black border-2 rounded-t-lg" src={producto.img} alt={producto.nombre} />
             <div className="border borde-2 border-black p-2 rounded-b-lg text-center">
                 <h2>{producto.nombre}</h2>
@@ -20,18 +26,19 @@ export default function CardProducto({ producto, fetchingProductos }: { producto
                 <p>Precio: S/. {producto.precio}</p>
                 <p>Stock: {producto.stock}</p>
                 <div className="flex flex-row justify-around">
-                    <button onClick={handleToggleModalEdit}>Editar</button>
-                    <button onClick={handleToggleModalElim}>Eliminar</button>
+                    {showEditDeleteButtons && (
+                        <>
+                            <button onClick={handleToggleModalEdit}>Editar</button>
+                            <button onClick={handleToggleModalElim}>Eliminar</button>
+                        </>
+                    )}
                 </div>
             </div>
             {modalEdit && <ModalEditar handleToggleModalEdit={handleToggleModalEdit} producto={producto} fetchingProductos={fetchingProductos} />}
             {modalElim && <ModalEliminar handleToggleModalElim={handleToggleModalElim} producto={producto} fetchingProductos={fetchingProductos} />}
-
         </div>
-
-    )
+    );
 }
-
 
 export function ModalEditar({
     handleToggleModalEdit, producto, fetchingProductos
@@ -150,7 +157,6 @@ export function ModalEditar({
         </div>
     );
 }
-
 
 export function ModalEliminar({
     handleToggleModalElim, producto, fetchingProductos
