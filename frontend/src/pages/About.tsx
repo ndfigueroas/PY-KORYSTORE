@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import { Producto } from "../utils/definition";
-import CardProducto from "../components/CardProducto";
 
 export default function About() {
     const [equipo, setEquipo] = useState<any[]>([]); // Simula una respuesta de equipo (puedes obtenerlo de una API si es necesario)
@@ -29,8 +27,6 @@ export default function About() {
 
     return (
         <div className="font-sans">
-            {/* Navbar */}
-
 
             {/* Hero Section */}
             <section className="hero-section bg-gradient-to-r from-blue-500 via-pink-500 to-yellow-500 text-white py-10 text-center">
@@ -70,9 +66,6 @@ export default function About() {
                     </div>
                 </div>
             </section>
-
-            {/* Footer */}
-
         </div>
     );
 }
