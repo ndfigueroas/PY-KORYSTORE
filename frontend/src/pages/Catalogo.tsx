@@ -5,7 +5,7 @@ import CardProducto from "../components/CardProducto";
 export default function Catalogo() {
     const [listaProductos, setListaProductos] = useState<Producto[]>();
     const [modalReg, setModalReg] = useState(false);
-
+    
     // Verificar si hay un usuario logueado en el localStorage
     const dataUser = localStorage.getItem("datauser");
 
@@ -41,7 +41,7 @@ export default function Catalogo() {
             <div className="p-2">
                 <div className="flex flex-col">
                     <h1 className="mt-4 text-center text-3xl font-bold">Catálogo de Productos</h1>
-
+                    
                     {/* Solo mostrar el botón si hay un usuario logueado */}
                     {dataUser && (
                         <div className="w-[30wh] flex justify-end">
